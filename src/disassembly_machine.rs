@@ -5,17 +5,16 @@ pub struct DisassemblyMachine {
 
 impl DisassemblyMachine {
     // --snip--
-    pub fn new(cc: &eframe::CreationContext<'_>) -> Self {
-        Self {
-            Self::default()
-        }
+    pub fn new(_cc: &eframe::CreationContext<'_>) -> Self {
+        Self::default()
     }
 }
 
 impl eframe::App for DisassemblyMachine {
-    // --snip--
-    fn update(&mut self, _ctx: &eframe::Context, _state: &mut State) {
-        // --snip--
+    fn update(&mut self, ctx: &eframe::egui::Context, frame: &mut eframe::Frame) {
+        eframe::egui::CentralPanel::default().show(ctx, |ui| {
+            ui.label("Hello, world!");
+        });
     }
-    
+    // --snip--
 }

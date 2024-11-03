@@ -2,7 +2,10 @@ use eframe::NativeOptions;
 use vole_disassembly::DisassemblyMachine;
 
 fn main() {
-    let native_options = NativeOptions::default();
+    let native_options = NativeOptions {
+        centered: true,
+        ..Default::default()
+    };
     match eframe::run_native(
         "Vole Disassembler v0.1.0",
         native_options,
@@ -14,5 +17,4 @@ fn main() {
             std::process::exit(1);
         }
     }
-    println!("Hello, world!");
 }

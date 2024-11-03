@@ -121,5 +121,6 @@ pub fn solve(machine: &mut DisassemblyMachine) {
 }
 
 fn rotate_right(value: u8, shift: u8) -> u8 {
+    let shift = shift % 8;
     (value >> shift) | (value << (8 - shift))
 }

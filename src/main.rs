@@ -1,7 +1,10 @@
+#![windows_subsystem = "windows"]
+use std::error::Error;
+
 use eframe::NativeOptions;
 use vole_disassembly::DisassemblyMachine;
 
-fn main() {
+fn main() -> Result<(), Box<dyn Error>> {
     let native_options = NativeOptions {
         centered: true,
         ..Default::default()
@@ -11,7 +14,7 @@ fn main() {
         native_options,
         Box::new(|cc| Ok(Box::new(DisassemblyMachine::new(cc)))),
     ) {
-        Ok(_) => {}
+        Ok(_) => Ok(()),
         Err(e) => {
             eprintln!("Error: {}", e);
             std::process::exit(1);

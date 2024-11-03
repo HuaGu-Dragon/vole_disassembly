@@ -1,6 +1,7 @@
 [package]
 name = "vole_disassembly"
 version = "0.1.0"
+authors = ["HuaGu_Dragon <1801932622@qq.com>"]
 edition = "2021"
 
 [dependencies]

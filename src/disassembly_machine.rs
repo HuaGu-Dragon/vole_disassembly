@@ -1,4 +1,4 @@
-use eframe::egui::{Color32, RichText};
+use eframe::egui::{Color32, RichText, TextEdit};
 
 use crate::solve;
 
@@ -126,11 +126,20 @@ impl eframe::App for DisassemblyMachine {
                     ui.button("Reset")
                         .on_hover_text("Reset the disassembler")
                         .clicked()
+                        .then(|| self.reset());
+                    ui.button("Reset All")
+                        .on_hover_text("Reset the disassembler")
+                        .clicked()
                         .then(|| self.reset_all());
                     ui.separator();
                     ui.menu_button("About", |ui| {
                         ui.label("Version: 0.1.0");
                         ui.label("Author: HuaGu_Dragon");
+                        ui.label("License: MIT");
+                        ui.add(eframe::egui::Hyperlink::from_label_and_url(
+                            "GitHub Repository",
+                            "https://github.com/HuaGu-Dragon/vole_disassembly",
+                        ));
                     });
                 });
                 if ui
@@ -163,36 +172,56 @@ impl eframe::App for DisassemblyMachine {
             ui.label("Welcome to Vole Disassembler!");
             ui.separator();
             ui.label("This is a disassembler for Vole Code.");
+            ui.add(eframe::egui::Hyperlink::from_label_and_url(
+                "By HuaGu_Dragon",
+                "https://space.bilibili.com/313037750",
+            ));
             ui.separator();
             ui.label("Please input vole code to disassemble.");
             eframe::egui::CollapsingHeader::new("Registers").show(ui, |ui| {
                 for i in 0..8 {
                     ui.horizontal(|ui| {
                         ui.label(format!("R{:02}:", i));
-                        ui.label(format!("0x{:02X}", self.cpu[i]));
+                        if self.cpu[i] == 0 {
+                            ui.label("0x00");
+                        } else {
+                            ui.label(
+                                RichText::new(format!("0x{:02X}", self.cpu[i]))
+                                    .color(Color32::from_rgb(183, 232, 189)),
+                            );
+                        }
                         ui.add_space(10.0);
                         ui.label(format!("R{:02}:", i + 8));
-                        ui.label(format!("0x{:02X}", self.cpu[i + 8]));
+                        if self.cpu[i + 8] == 0 {
+                            ui.label("0x00");
+                        } else {
+                            ui.label(
+                                RichText::new(format!("0x{:02X}", self.cpu[i + 8]))
+                                    .color(Color32::from_rgb(183, 232, 189)),
+                            );
+                        }
                     });
                 }
             });
             ui.separator();
             ui.horizontal(|ui| {
-                ui.label("Timer:");
-                ui.add_space(14.0);
-                ui.add(
-                    eframe::egui::DragValue::new(&mut self.timer)
-                        .speed(1)
-                        .range(0..=1500),
-                );
-            });
-            ui.horizontal(|ui| {
-                ui.label("Counter:");
-                ui.add(
-                    eframe::egui::DragValue::new(&mut self.counter)
-                        .speed(1)
-                        .range(0..=255),
-                );
+                ui.horizontal(|ui| {
+                    ui.label("Timer:");
+                    ui.add_space(14.0);
+                    ui.add(
+                        eframe::egui::DragValue::new(&mut self.timer)
+                            .speed(1)
+                            .range(0..=1500),
+                    );
+                });
+                ui.horizontal(|ui| {
+                    ui.label("Counter:");
+                    ui.add(
+                        eframe::egui::DragValue::new(&mut self.counter)
+                            .speed(1)
+                            .range(0..=255),
+                    );
+                });
             });
         });
         eframe::egui::TopBottomPanel::bottom("bottom_panel").show(ctx, |ui| {

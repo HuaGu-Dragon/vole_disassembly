@@ -1,4 +1,4 @@
-use eframe::egui::{Color32, RichText, TextEdit};
+use eframe::egui::{Color32, RichText};
 
 use crate::solve;
 

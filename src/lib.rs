@@ -86,7 +86,6 @@ pub fn solve(machine: &mut DisassemblyMachine) {
             if machine.cpu[(vole_code as usize) % 16] == machine.cpu[0] {
                 machine.set_counter(next_vole_code);
                 machine.timer_dec();
-                machine.update_state(DisassemblyMachineState::Stopped);
                 return;
             }
         }

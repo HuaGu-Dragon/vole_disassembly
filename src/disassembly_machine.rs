@@ -67,7 +67,7 @@ impl DisassemblyMachine {
 
     pub fn timer_dec(&mut self) {
         if self.timer > 0 {
-            self.timer -= 1;
+            self.timer -= 2;
         }
     }
 
